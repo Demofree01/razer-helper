@@ -48,6 +48,13 @@ if ($null -ne $taskExisting) {
     $taskNames = @($taskExisting.assets | Where-Object { $_.state -eq 'uploaded' -and $_.size -gt 0 } | ForEach-Object { $_.name })
     if (-not $taskExisting.draft -and $taskNames -contains ($taskBundleName + '.zip') -and
         $taskNames -contains ([IO.Path]::GetFileName($taskChecksumPath))) {
+        # Documentation edits may update notes while preserving the published assets.
+        $taskCurrentNotes = [IO.File]::ReadAllText($taskNotesPath)
+        if ($taskExisting.body.Replace("`r`n","`n").Trim() -cne $taskCurrentNotes.Replace("`r`n","`n").Trim()) {
+            $taskNotesUpdate = @{body=$taskCurrentNotes} | ConvertTo-Json
+            Invoke-RestMethod -Method Patch -Uri ($taskApiBase + '/releases/' + $taskExisting.id) -Headers $taskHeaders -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($taskNotesUpdate)) | Out-Null
+            Write-Host 'Updated bilingual release notes.'
+        }
         Write-Host ('Already published: ' + $taskExisting.html_url)
         return
     }

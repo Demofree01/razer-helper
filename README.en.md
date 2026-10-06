@@ -4,6 +4,8 @@
 
 A lightweight, offline Windows tray utility for Razer Blade keyboard lighting, firmware performance presets, refresh rates, charge limits, and local macros. The interface and tray workflow are inspired by [G-Helper](https://github.com/seerge/g-helper), for users who want fewer Synapse background dependencies.
 
+**This program was developed with assistance from GPT - Sol 6.1.**
+
 > **Compatibility: Tested only on the Razer Blade 14 (2025), RZ09-0530. Successful operation is not guaranteed on another unit of the same model, similar models, or different machines. BIOS, firmware, driver, and Windows versions may affect behavior. Advanced parameter writes and native Fn/Hypershift triggering are not hardware-validated and are excluded from the tested feature set.**
 >
 > **目前仅在雷蛇灵刃 14 2025 款（RZ09-0530）上测试通过。同型号、同类型及其他机型不保证可以运行成功。进阶参数写入与真实 Fn／Hypershift 触发尚未完成实机验证。**

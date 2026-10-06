@@ -4,6 +4,8 @@
 
 轻量、离线的 Windows 托盘工具，用于控制雷蛇灵刃的键盘灯效、性能预设、刷新率、电池充电上限和本地宏。界面与托盘使用方式参考 [G-Helper](https://github.com/seerge/g-helper)，面向希望减少雷云后台依赖的用户。
 
+**本程序的编制由 GPT - Sol 6.1 辅助完成。**
+
 > **兼容性说明：目前仅在雷蛇灵刃 14 2025 款（Razer Blade 14 2025，RZ09-0530）上测试通过。即使是同型号、同类型或其他型号的机器，也不保证可以运行成功。BIOS、固件、驱动和系统版本差异都可能影响功能。进阶参数写入、真实 Fn／Hypershift 触发等尚未完成实机验证，不包含在“测试通过”的范围内。**
 >
 > **Compatibility: Tested only on the Razer Blade 14 (2025), RZ09-0530. Successful operation is not guaranteed on another unit of the same model, similar models, or different machines. Advanced parameter writes and native Fn/Hypershift triggering are not hardware-validated.**
