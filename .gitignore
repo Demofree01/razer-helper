@@ -1,0 +1,17 @@
+.reference/
+artifacts/
+dist/
+release/
+bin/
+obj/
+.publish/
+*.pdb
+*.user
+.vs/
+*.bak
+*.tmp
+*.log
+settings.json
+settings.before-*.json
+deleted-macros/
+advanced/last-cpu-change.json

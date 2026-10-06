@@ -1,0 +1,50 @@
+name: Build, test and release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/AssemblyInfo.cs'
+      - 'docs/releases/**'
+      - '.github/workflows/release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: portable-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: windows-2022
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - name: Fetch the public source at the triggering commit
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_SHA -notmatch '^[0-9a-f]{40}$') { throw 'Invalid commit SHA.' }
+          git init .
+          if ($LASTEXITCODE -ne 0) { throw 'Git initialization failed.' }
+          git remote add origin "https://github.com/$env:GITHUB_REPOSITORY.git"
+          if ($LASTEXITCODE -ne 0) { throw 'Remote initialization failed.' }
+          git fetch --depth=1 origin $env:GITHUB_SHA
+          if ($LASTEXITCODE -ne 0) { throw 'Source fetch failed.' }
+          git checkout --detach FETCH_HEAD
+          if ($LASTEXITCODE -ne 0) { throw 'Source checkout failed.' }
+      - name: Build and run offline tests
+        shell: pwsh
+        run: ./scripts/build.ps1 -Tests
+      - name: Package the portable application
+        shell: pwsh
+        run: ./scripts/package.ps1
+      - name: Publish verified ZIP and checksum
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ./scripts/publish-release.ps1
